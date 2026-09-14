@@ -34,3 +34,49 @@ Derived 10 domain-specific sabermetric indicators from raw team statistics:
 
 ### Key Finding: CV MAE and Kaggle MAE Linear Relationship
 Through systematic experimentation, we discovered a near-perfect linear relationship between cross-validation MAE and Kaggle public leaderboard MAE:
+
+Kaggle MAE = 1.0259 × CV MAE + 0.2743 (R² = 0.9995)
+
+
+This allowed us to predict Kaggle scores before submitting and prioritize which experiments were worth submitting.
+
+## Results
+
+| Method | CV MAE | Kaggle MAE |
+|--------|--------|------------|
+| Linear Regression (baseline) | 2.767 | 3.115 |
+| Ridge (alpha=1.0) | 2.764 | 3.102 |
+| Lasso + engineered features (OBP, OPS, run_diff, pyth_wins, WHIP) | 2.714 | 3.057 |
+| **Lasso + FIP + def_efficiency (final)** | **2.7106** | **3.016** |
+
+**Improved MAE from 3.115 (Linear Regression baseline) to 3.016 (Lasso with feature engineering), an 8.5% reduction.**
+
+## Files
+
+├── best_model.py # Final model code — runs end-to-end and generates submission.csv
+├── reports/
+│ └── moneyball_report_v2.docx # Full project report with all experiments, metrics, and analysis
+└── notes/
+└── module3_2_qa_recap.md # Q&A recap from the learning process
+
+
+## How to Run
+
+```bash
+# Place data.csv and predict.csv in the same directory as best_model.py
+python best_model.py
+# Outputs: submission.csv + cross-validation metrics (MAE, RMSE, R², error distribution)
+```
+
+## Requirements
+
+pandas
+numpy
+scikit-learn
+
+
+## Key Lessons
+- Simple regularized linear models outperform tree ensembles on small structured datasets with near-linear relationships
+- Domain-specific feature engineering (grounded in baseball theory) outperformed pure data-driven feature selection
+- CV improvement does not always translate to held-out test improvement — features with CV gains < 0.005 were typically noise
+- Training on the full dataset generalizes better than holding out a validation set when data is limited
