@@ -1,7 +1,5 @@
 # MLB Season Wins Prediction (Moneyball)
 
-NTU-PACE-SCTP-DSAI-2026 | Module 3.2 Project
-
 ## Objective
 Predict the number of games an MLB team wins in a season using historical team statistics from the 2016 Lahman Baseball Database. Evaluation metric: Mean Absolute Error (MAE).
 
